@@ -99,11 +99,24 @@ int main(int argc, const char *argv[])
 
         // only keep keypoints on the preceding vehicle
         bool bFocusOnVehicle = true;
-        cv::Rect vehicleRect(535, 180, 180, 150);
+        
         if (bFocusOnVehicle)
         {
-            // ...
+            cv::Rect vehicleRect(535, 180, 180, 150);
+            cv::Point pt1 = cv::Point(535, 180); 
+            cv::Point pt2 = cv::Point(535 + 180, 535 + 150); 
+            cout << "CROPPING: Keypoints size before cropping: " << keypoints.size() << endl; 
+            //cv::rectangle(imgGray, pt1, pt2, cv::Scalar(0, 255, 0), 5);
+            vector<cv::KeyPoint> new_keypoints; 
+            for (int i = 0; i < keypoints.size(); i++)
+            {
+                if(vehicleRect.contains(keypoints[i].pt))
+                    new_keypoints.push_back(keypoints[i]);
+            }
+            keypoints = new_keypoints; 
+            cout << "CROPPING: Keypoints size after cropping: " << keypoints.size() << endl; 
         }
+
 
         //// EOF STUDENT ASSIGNMENT
 
